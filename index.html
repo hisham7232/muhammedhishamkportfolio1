@@ -1170,8 +1170,31 @@
         resumeLinkedinEl.href = PROFILE_LINKS.linkedin;
         resumeLinkedinEl.textContent = PROFILE_LINKS.linkedin.replace(/^https?:\/\//, '');
 
-        // 1. Dynamic Year
-        document.getElementById('footer-year').textContent = new Date().getFullYear();
+        // 1. Dynamic Year & Live Indian Standard Time (IST / Asia/Kolkata) Clock
+function updateISTClock() {
+    const now = new Date();
+    const istYear = new Intl.DateTimeFormat('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        year: 'numeric'
+    }).format(now);
+
+    const istTime = new Intl.DateTimeFormat('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+    }).format(now);
+
+    document.getElementById('footer-year').textContent = istYear;
+    const liveClockEl = document.getElementById('live-ist-clock');
+    const footerTimeEl = document.getElementById('footer-ist-time');
+    if (liveClockEl) liveClockEl.textContent = `${istTime.toUpperCase()} IST`;
+    if (footerTimeEl) footerTimeEl.textContent = `${istTime.toUpperCase()} IST`;
+}
+updateISTClock();
+setInterval(updateISTClock, 1000);
+
 
         // 2. Scroll Progress Indicator
         const scrollProgressBar = document.getElementById('scroll-progress-bar');
